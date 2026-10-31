@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="firestore_database_id" translatable="false">ai-studio-android-cooktoni-d8be1338-ecd5-4cb3-be72-8359630123f9</string>
+    <string name="recaptcha_site_key" translatable="false">6LeQQQguAAAAAMI_T0FK6ZWsmS7Ub1CRr4uW-gD-</string>
+</resources>

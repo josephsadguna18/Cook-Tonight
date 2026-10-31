@@ -1,0 +1,98 @@
+{
+  "entities": {
+    "CachedRecipeGroup": {
+      "title": "CachedRecipeGroup",
+      "description": "Cached recipe generation results for a specific cuisine or dish query",
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Normalized lowercase query or cuisine name"
+        },
+        "cuisine": {
+          "type": "string",
+          "description": "Cuisine category"
+        },
+        "recipesJson": {
+          "type": "string",
+          "description": "JSON-encoded 6 recipes payload"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp via FieldValue.serverTimestamp()"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update timestamp via FieldValue.serverTimestamp()"
+        }
+      },
+      "required": ["query", "cuisine", "recipesJson", "userId", "createdAt", "updatedAt"]
+    },
+    "SavedRecipe": {
+      "title": "SavedRecipe",
+      "description": "User saved or pinned recipe",
+      "type": "object",
+      "properties": {
+        "recipeId": {
+          "type": "string",
+          "description": "Unique recipe identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Recipe title"
+        },
+        "cuisine": {
+          "type": "string",
+          "description": "Cuisine name"
+        },
+        "time": {
+          "type": "string",
+          "description": "Preparation / cooking time"
+        },
+        "serves": {
+          "type": "string",
+          "description": "Number of servings"
+        },
+        "steps": {
+          "type": "array",
+          "description": "Cooking step instructions"
+        },
+        "ingredients": {
+          "type": "array",
+          "description": "List of ingredient objects"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user UID"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp via FieldValue.serverTimestamp()"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update timestamp via FieldValue.serverTimestamp()"
+        }
+      },
+      "required": ["recipeId", "name", "cuisine", "time", "serves", "steps", "ingredients", "userId", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/cached_recipes/{cacheId}": {
+      "schema": "CachedRecipeGroup",
+      "description": "Cached recipe generation results per user and query"
+    },
+    "/users/{userId}/saved_recipes/{recipeId}": {
+      "schema": "SavedRecipe",
+      "description": "User-saved recipes and active cooking sessions"
+    }
+  }
+}

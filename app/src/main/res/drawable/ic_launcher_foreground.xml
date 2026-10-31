@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Steam waves -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M46,27 C44,30 48,33 46,37" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:pathData="M54,23 C52,27 56,31 54,36" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M62,27 C60,30 64,33 62,37" />
+
+    <!-- Pot Lid -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M51,37 h6 v3 h-6 z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M37,45 C41,40 67,40 71,45 Z" />
+
+    <!-- Pot Body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M31,48 h46 c0,19 -10,31 -23,31 S31,67 31,48 Z" />
+
+    <!-- Pot Rim -->
+    <path
+        android:fillColor="#FFF3E0"
+        android:pathData="M28,45 h52 c1.5,0 2.5,1 2.5,2.5 S81.5,50 80,50 H28 c-1.5,0 -2.5,-1 -2.5,-2.5 S26.5,45 28,45 Z" />
+
+    <!-- Left Handle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,52 c-4.5,0 -7,3 -7,6.5 s2.5,6.5 7,6.5 h2 v-3.5 h-1.5 c-2.5,0 -4,-1.3 -4,-3 s1.5,-3 4,-3 H26 Z" />
+
+    <!-- Right Handle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M82,52 c4.5,0 7,3 7,6.5 s-2.5,6.5 -7,6.5 h-2 v-3.5 h1.5 c2.5,0 4,-1.3 4,-3 s-1.5,-3 -4,-3 H82 Z" />
+
+    <!-- Chef Fork & Spoon Accent inside bowl -->
+    <path
+        android:fillColor="#FF6D00"
+        android:pathData="M51,57 c-2,0 -3.5,1.5 -3.5,3.5 c0,2.5 3.5,8 3.5,8 s3.5,-5.5 3.5,-8 c0,-2 -1.5,-3.5 -3.5,-3.5 Z" />
+    <path
+        android:fillColor="#FFE0B2"
+        android:pathData="M56,58 l4,10 h2 l-4,-10 z" />
+</vector>

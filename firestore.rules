@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidCachedRecipeGroup(data) {
+      return data.query is string && data.query.size() > 0 && data.query.size() <= 200 &&
+             data.cuisine is string && data.cuisine.size() > 0 && data.cuisine.size() <= 100 &&
+             data.recipesJson is string && data.recipesJson.size() > 0 && data.recipesJson.size() <= 100000 &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidSavedRecipe(data) {
+      return data.recipeId is string && data.recipeId.size() > 0 && data.recipeId.size() <= 128 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+             data.cuisine is string && data.cuisine.size() > 0 && data.cuisine.size() <= 100 &&
+             data.time is string && data.time.size() > 0 && data.time.size() <= 100 &&
+             data.serves is string && data.serves.size() > 0 && data.serves.size() <= 50 &&
+             data.steps is list && data.steps.size() <= 50 &&
+             data.ingredients is list && data.ingredients.size() <= 100 &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.createdAt is timestamp && data.createdAt <= request.time &&
+             data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    match /users/{userId}/cached_recipes/{cacheId} {
+      allow get, list: if isSignedIn() && request.auth.uid == userId;
+
+      allow create: if isSignedIn() &&
+                       request.auth.uid == userId &&
+                       isValidId(cacheId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll(['query', 'cuisine', 'recipesJson', 'userId', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['query', 'cuisine', 'recipesJson', 'userId', 'createdAt', 'updatedAt']) &&
+                       isValidCachedRecipeGroup(incoming());
+
+      allow update: if isSignedIn() &&
+                       request.auth.uid == userId &&
+                       isValidId(cacheId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidCachedRecipeGroup(incoming()) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['query', 'cuisine', 'recipesJson', 'updatedAt']);
+
+      allow delete: if isSignedIn() && request.auth.uid == userId && isValidId(cacheId);
+    }
+
+    match /users/{userId}/saved_recipes/{recipeId} {
+      allow get, list: if isSignedIn() && request.auth.uid == userId;
+
+      allow create: if isSignedIn() &&
+                       request.auth.uid == userId &&
+                       isValidId(recipeId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll(['recipeId', 'name', 'cuisine', 'time', 'serves', 'steps', 'ingredients', 'userId', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['recipeId', 'name', 'cuisine', 'time', 'serves', 'steps', 'ingredients', 'userId', 'createdAt', 'updatedAt']) &&
+                       isValidSavedRecipe(incoming());
+
+      allow update: if isSignedIn() &&
+                       request.auth.uid == userId &&
+                       isValidId(recipeId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidSavedRecipe(incoming()) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['name', 'cuisine', 'time', 'serves', 'steps', 'ingredients', 'updatedAt']);
+
+      allow delete: if isSignedIn() && request.auth.uid == userId && isValidId(recipeId);
+    }
+  }
+}
